@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+/* --- GLOBAL FONT SETTINGS --- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+@theme {
+  --color-m-beige: #F5F2ED;
+  --color-m-brown: #3E2723;
+  --color-m-olive: #556B2F;
+  --color-m-gold: #D4AF37;
+}
+
+/* --- BASE STYLES (Problem Solver) --- */
+@layer base {
+  body {
+    background-color: var(--color-m-beige); /* Beige Background */
+    color: var(--color-m-brown); /* Dark Brown Text */
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Headings ke liye Luxury Font */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    color: var(--color-m-brown);
+  }
+}
+
+/* --- COMPONENTS FIX (Buttons & Inputs) --- */
+@layer components {
+  
+  /* 1. INPUT FIELDS FIX (Jo invisible ho rahe the) */
+  input, textarea, select {
+    @apply w-full p-4 rounded-xl outline-none transition-all duration-300;
+    background-color: rgba(255, 255, 255, 0.5); /* Halka White Background */
+    border: 1px solid rgba(212, 175, 55, 0.4); /* Gold Border Light */
+    color: #3E2723; /* Dark Text inside input */
+  }
+
+  /* Focus karne par border dark ho jayega */
+  input:focus, textarea:focus, select:focus {
+    background-color: #FFFFFF;
+    border-color: #556B2F; /* Olive Green Border */
+    box-shadow: 0 4px 12px rgba(85, 107, 47, 0.1);
+  }
+
+  /* 2. BUTTONS FIX (Jo white text hoke gayab ho rahe the) */
+  /* Agar kisi button pe koi class nahi hai, toh ye default hoga */
+  button:not([class]) {
+    background-color: #3E2723;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border-radius: 8px;
+  }
+
+  /* --- UTILITY CLASSES FOR LUXURY BUTTONS --- */
+  
+  /* Primary Button (Dark Green) */
+  .btn-primary {
+    @apply bg-m-olive text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all shadow-xl;
+  }
+  .btn-primary:hover {
+    @apply bg-m-brown transform -translate-y-1 shadow-2xl;
+  }
+
+  /* Secondary Button (Dark Brown) */
+  .btn-secondary {
+    @apply bg-m-brown text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all shadow-xl;
+  }
+  .btn-secondary:hover {
+    @apply bg-m-gold text-m-brown transform -translate-y-1;
+  }
+}
+
+/* --- SCROLLBAR CUSTOMIZATION --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F5F2ED;
+}
+::-webkit-scrollbar-thumb {
+  background: #D4AF37; /* Gold Scrollbar */
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3E2723;
+}
+
+/* --- TEXT SELECTION (Jab text select karoge) --- */
+::selection {
+  background-color: #D4AF37;
+  color: #FFFFFF;
+}
