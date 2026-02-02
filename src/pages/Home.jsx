@@ -25,7 +25,7 @@ export default function Home() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5000/api/products/all');
+        const { data } = await axios.get('https://mariyam-mehendi.onrender.com/api/products/all');
         setProducts(data);
       } catch (err) { console.error(err); } 
       finally { setLoading(false); }

@@ -17,7 +17,7 @@ export default function ProductDetails() {
   // Product Fetch Karna
   useEffect(() => {
     const fetchProduct = async () => {
-      const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
+      const { data } = await axios.get(`https://mariyam-mehendi.onrender.com/api/products/${id}`);
       setProduct(data);
     };
     fetchProduct();
@@ -27,12 +27,12 @@ export default function ProductDetails() {
   const submitReview = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:5000/api/products/${id}/review`, { name, rating, comment });
+      await axios.post(`https://mariyam-mehendi.onrender.com/api/products/${id}/review`, { name, rating, comment });
       toast.success("Review Submitted! Thank you 💖");
       setName('');
       setComment('');
       // Refresh data to show new review
-      const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
+      const { data } = await axios.get(`https://mariyam-mehendi.onrender.com/api/products/${id}`);
       setProduct(data);
     } catch (error) {
       toast.error("Review failed, try again!");

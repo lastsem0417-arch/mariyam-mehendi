@@ -29,7 +29,7 @@ export default function Checkout() {
 
     try {
       // 1. Save to Database
-      await axios.post('http://localhost:5000/api/orders/create', orderData);
+      await axios.post('https://mariyam-mehendi.onrender.com/api/orders/create', orderData);
       
       // 2. WhatsApp Redirect
       const phoneNumber = "9409347705"; // Mariyam ka number yahan dalo

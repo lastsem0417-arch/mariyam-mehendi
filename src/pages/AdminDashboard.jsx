@@ -19,7 +19,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      axios.get('http://localhost:5000/api/orders/all').then(res => setOrders(res.data));
+      axios.get('https://mariyam-mehendi.onrender.com/api/orders/all').then(res => setOrders(res.data));
     }
   }, [isLoggedIn]);
 
@@ -31,7 +31,7 @@ export default function AdminDashboard() {
     formData.append('image', file);
 
     try {
-      await axios.post('http://localhost:5000/api/products/add', formData);
+      await axios.post('https://mariyam-mehendi.onrender.com/api/products/add', formData);
       alert("Product Published Successfully!");
       setProduct({ name: '', price: '', category: 'Mehendi', description: '' });
       setFile(null);
