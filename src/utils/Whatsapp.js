@@ -1,5 +1,5 @@
 export const sendToWhatsApp = (formData, cart, total) => {
-  const phoneNumber = "9409347705"; // Yahan Mariyam ka original WhatsApp number dalo
+  const phoneNumber = "919409347705"; // Yahan Mariyam ka original WhatsApp number dalo
   
   // Cart items ko text mein convert karo
   const itemsText = cart.map(item => 
