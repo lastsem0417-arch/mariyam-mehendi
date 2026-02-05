@@ -23,7 +23,7 @@ const products = [
   // --- MEHENDI CATEGORY ---
   {
     name: "Organic Bridal Mehendi Cone",
-    image: "https://images.unsplash.com/photo-1599707367072-cd6ad6cb3d2e?q=80&w=800&auto=format&fit=crop",
+    image: "8.png",
     description: "100% Organic, Triple-sifted henna powder. Dark maroon stain guaranteed within 48 hours. Chemical-free and skin-friendly.",
     price: 50,
     category: "Mehendi",
@@ -42,9 +42,9 @@ const products = [
 
   // --- RESIN ART & KEYCHAINS ---
   {
-    name: "Gold Flake Resin Keychain",
+    name: "Resin Keychain",
     image: "https://i.etsystatic.com/23126487/r/il/649175/3173752669/il_fullxfull.3173752669_4m55.jpg",
-    description: "Handcrafted alphabet keychain with real gold flakes and dried flowers. A perfect personalized gift.",
+    description: "Handcrafted alphabet keychain with  dried flowers. A perfect personalized gift.",
     price: 150,
     category: "Resin",
     countInStock: 20,
@@ -71,8 +71,8 @@ const products = [
 
   // --- PRESERVATION & FRAMES ---
   {
-    name: "Rose Preserver (Varmala)",
-    image: "https://m.media-amazon.com/images/I/71N1gQ+NnXL.jpg",
+    name: "Customized Pooja thali)",
+    image: "1.png",
     description: "Preserve your wedding memories forever. We encapsulate your Varmala roses in a crystal clear resin block.",
     price: 2500,
     category: "Resin",
@@ -89,8 +89,8 @@ const products = [
     rating: 4.8
   },
   {
-    name: "Customized Photo Frame",
-    image: "https://m.media-amazon.com/images/I/71E+qN+yL+L._AC_SL1500_.jpg",
+    name: "Customized plates",
+    image: "4.png",
     description: "6x6 inch Resin Photo Frame with LED light options. Gold edges and floral preservation. Best for anniversaries.",
     price: 850,
     category: "Resin",

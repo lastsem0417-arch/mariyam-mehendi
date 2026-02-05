@@ -9,7 +9,9 @@ const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// --- 1. ADMIN: ADD NEW PRODUCT ---
+// ==========================================
+// 1. ADMIN: ADD NEW PRODUCT
+// ==========================================
 router.post('/add', upload.single('image'), async (req, res) => {
   try {
     const { name, price, category, description } = req.body;
@@ -18,6 +20,7 @@ router.post('/add', upload.single('image'), async (req, res) => {
       return res.status(400).json({ message: "Image upload karna zaroori hai!" });
     }
 
+    // Image Upload to Cloudinary
     const fileBase64 = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
     const uploadResponse = await cloudinary.uploader.upload(fileBase64, {
       folder: 'mariyam_mehendi_products',
@@ -27,7 +30,7 @@ router.post('/add', upload.single('image'), async (req, res) => {
       name,
       price: Number(price),
       category,
-      description: description || "Handcrafted with love.", // Fallback agar description khali ho
+      description: description || "Handcrafted with love.",
       image: uploadResponse.secure_url,
       rating: 0,
       numReviews: 0,
@@ -43,7 +46,9 @@ router.post('/add', upload.single('image'), async (req, res) => {
   }
 });
 
-// --- 2. GET ALL PRODUCTS ---
+// ==========================================
+// 2. GET ALL PRODUCTS
+// ==========================================
 router.get('/all', async (req, res) => {
   try {
     const products = await Product.find().sort({ createdAt: -1 });
@@ -53,7 +58,9 @@ router.get('/all', async (req, res) => {
   }
 });
 
-// --- 3. GET SINGLE PRODUCT ---
+// ==========================================
+// 3. GET SINGLE PRODUCT
+// ==========================================
 router.get('/:id', async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -67,7 +74,9 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// --- 4. ADD REVIEW ROUTE (Validation Error Fix Wala) ---
+// ==========================================
+// 4. ADD REVIEW ROUTE
+// ==========================================
 router.post('/:id/review', async (req, res) => {
   const { name, rating, comment } = req.body;
 
@@ -75,20 +84,11 @@ router.post('/:id/review', async (req, res) => {
     const product = await Product.findById(req.params.id);
 
     if (product) {
-      // FIX 1: Agar reviews array nahi hai, toh banao
-      if (!product.reviews) {
-        product.reviews = [];
-      }
-
-      // FIX 2: (YE HAI TERA ERROR SOLUTION)
-      // Agar purane product mein description missing hai, toh dummy daal do
-      if (!product.description) {
-        product.description = "Premium quality handcrafted product from Mariyam Mehendi.";
-      }
-      // Agar category missing hai
-      if (!product.category) {
-        product.category = "General";
-      }
+      if (!product.reviews) product.reviews = [];
+      
+      // Legacy data fix
+      if (!product.description) product.description = "Premium handcrafted product.";
+      if (!product.category) product.category = "General";
 
       const review = {
         name,
@@ -109,7 +109,7 @@ router.post('/:id/review', async (req, res) => {
         product.rating = 0;
       }
 
-      await product.save(); // Ab ye error nahi dega kyunki humne description bhar diya hai
+      await product.save();
       res.status(201).json({ message: 'Review Added Successfully' });
     } else {
       res.status(404).json({ message: 'Product not found' });
@@ -117,6 +117,66 @@ router.post('/:id/review', async (req, res) => {
   } catch (error) {
     console.error("Review Error:", error);
     res.status(500).json({ message: "Server Error: " + error.message });
+  }
+});
+
+// ==========================================
+// 5. DELETE PRODUCT (NEW ✅)
+// ==========================================
+router.delete('/delete/:id', async (req, res) => {
+  try {
+    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+    if (deletedProduct) {
+      res.json({ message: "Product Deleted Successfully" });
+    } else {
+      res.status(404).json({ message: "Product not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting product: " + error.message });
+  }
+});
+
+// ==========================================
+// 6. UPDATE PRODUCT (NEW ✅)
+// ==========================================
+router.put('/update/:id', upload.single('image'), async (req, res) => {
+  try {
+    const { name, price, description, category } = req.body;
+    
+    // Naya data object banao
+    let updateData = { 
+      name, 
+      price: Number(price), 
+      description, 
+      category 
+    };
+
+    // Agar nayi image upload hui hai, tabhi Cloudinary pe bhejo
+    if (req.file) {
+      const fileBase64 = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+      const uploadResponse = await cloudinary.uploader.upload(fileBase64, {
+        folder: 'mariyam_mehendi_products',
+      });
+      // Image URL update karo
+      updateData.image = uploadResponse.secure_url;
+    }
+
+    // Database update karo
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id, 
+      updateData, 
+      { new: true } // Taaki response mein naya updated product mile
+    );
+
+    if (updatedProduct) {
+      res.json(updatedProduct);
+    } else {
+      res.status(404).json({ message: "Product not found" });
+    }
+
+  } catch (error) {
+    console.error("Update Error:", error);
+    res.status(500).json({ message: "Error updating product: " + error.message });
   }
 });
 
